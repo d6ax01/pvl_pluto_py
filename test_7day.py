@@ -145,6 +145,8 @@ if __name__ == '__main__':
     ui_thread = threading.Thread(target=run_ui, args=(logger_controller,))
     ui_thread.start()
 
+
+
     sim_state=False
     recovery_count = 0
     while sim_state is False:

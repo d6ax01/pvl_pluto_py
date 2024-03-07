@@ -13,12 +13,11 @@ import python_simmian_api
 import sys
 import threading
 from pyqt_ui.log_ui import *
-from pyqt_ui import log_controll
 
 from shutil import copyfile
 from measurement import embedded_data_parser, measurement_items as mi
 import numpy as np
-import test_7day
+import pvl_func.pvl_func as pvl_f
 
 class LogState(Enum):
     Fail=-1
@@ -129,7 +128,7 @@ class LoggerUI(QMainWindow):
             self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Recovery)
             self.controller.change_large_text("SETTING", "cadetblue")
 
-            sim_state = test_7day.RecoverySim()
+            sim_state = pvl_f.RecoverySim()
 
         # 모듈 번호 입력 ***************************************************************************************************
         fc_vt.ProcCreateModuleFolder()
@@ -160,7 +159,7 @@ class LoggerUI(QMainWindow):
             self.controller.change_large_text("RUNNING", "lightgreen")
             time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
             # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
-            data_get_bool = test_7day.ProcSaveRaw(1, 20, 500, result_saver)  # 500 mm 에서 평가
+            data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500, result_saver)  # 500 mm 에서 평가
 
             if data_get_bool:
                 # add log
@@ -169,7 +168,7 @@ class LoggerUI(QMainWindow):
 
                 if total_second / 3600 > image_save_time:
                     image_save_time += 1
-                    test_7day.test_7dayimage_save(20, 500)
+                    pvl_f.image_save(20, 500)
                 recovery_count = 0
 
                 # get easurement item from capture data
@@ -192,7 +191,7 @@ class LoggerUI(QMainWindow):
                     recovery_count += 1
                     # add log
                     self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Recovery)
-                    sim_state = test_7day.RecoverySim()
+                    sim_state = pvl_f.RecoverySim()
                 if recovery_count == 20:
                     # add log
                     self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Fail)
@@ -200,7 +199,7 @@ class LoggerUI(QMainWindow):
                     # 로그에 init count max를 입력하고 프로그램 종료
                     break
                 else:
-                    test_7day.init_setFile()
+                    pvl_f.init_setFile()
 
             fc_vt.ProcCreateReport(1)  # 0 -> find global offset , 1 -> only measurement
 
@@ -262,7 +261,7 @@ class LoggerUI(QMainWindow):
         self.large_text_box.setAlignment(Qt.AlignCenter)  # Center-align text
 
         self.main_text_box.setStyleSheet(f"background-color: {color}; color: black;")
-        self.main_text_box.setPlainText(text)
+        self.main_text_box.setText(text)
         self.main_text_box.setAlignment(Qt.AlignCenter)  # Center-align text
 
 
@@ -321,7 +320,10 @@ class LoggerUI(QMainWindow):
 
         # Add log button
         self.log_button = QPushButton('Add log', self)
-        self.log_button.clicked.connect(self.generate_log_test)
+        #self.log_button.clicked.connect(self.generate_log_test)
+        self.log_button.clicked.connect(self.start_aging_thread)
+
+
         input_layout.addWidget(self.log_button)
 
         data_layout = QVBoxLayout()

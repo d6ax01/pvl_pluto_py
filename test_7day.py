@@ -17,8 +17,8 @@ import pvl_func.pvl_func as pvl_f
 def run_ui(controller):
     app = QApplication(sys.argv)
     logger_ui = LoggerUI(controller)
-    controller.generate_log_signal.connect(logger_ui.generate_log)
-    controller.change_large_text_signal.connect(logger_ui.change_large_text)
+    controller.generate_log_signal.connect(logger_ui.generate_log_to)
+    controller.change_large_text_signal.connect(logger_ui.change_large_text_to)
     logger_ui.show()
     app.exec_()
 

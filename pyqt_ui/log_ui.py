@@ -26,9 +26,10 @@ class LogState(Enum):
     Recovery=2
 
 class LogEntry:
-    def __init__(self, text, _logState=LogState.NoData):
+    def __init__(self, text, _logState=LogState.NoData, result_table=[]):
         self.text = text
         self.log_state = _logState
+        self.result_table=result_table
         self.timestamp = QDateTime.currentDateTime()
 
 
@@ -45,8 +46,8 @@ class LoggerUI(QMainWindow):
         self.controller=controller
         self.initUI()
         self.mutex = QMutex()  # 뮤텍스 생성
-        self.generate_log_signal.connect(self.generate_log)  # 시그널 연결
-        self.change_large_text_signal.connect(self.change_large_text)  # 시그널 연결
+        self.generate_log_signal.connect(self.generate_log_to)  # 시그널 연결
+        self.change_large_text_signal.connect(self.change_large_text_to)  # 시그널 연결
 
 
     def initUI(self):
@@ -117,6 +118,7 @@ class LoggerUI(QMainWindow):
     def start_aging_thread(self):
         self.work_thread = threading.Thread(target=self.start_aging_test)
         self.work_thread.start()
+        self.start_button.setDisabled(True)
 
     def start_aging_test(self):
 
@@ -131,7 +133,7 @@ class LoggerUI(QMainWindow):
             sim_state = pvl_f.RecoverySim()
 
         # 모듈 번호 입력 ***************************************************************************************************
-        fc_vt.ProcCreateModuleFolder()
+        fc_vt.ProcCreateModuleFolder(self.input_module_name)
         start_time = datetime.datetime.now()
         next_frame_time = 0
         test_during_time = 60 * 60 * 200
@@ -162,17 +164,8 @@ class LoggerUI(QMainWindow):
             data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500, result_saver)  # 500 mm 에서 평가
 
             if data_get_bool:
-                # add log
-                cap_count += 1
-                self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData)
-
-                if total_second / 3600 > image_save_time:
-                    image_save_time += 1
-                    pvl_f.image_save(20, 500)
-                recovery_count = 0
-
                 # get easurement item from capture data
-                frame_item = [0, 0, 0, 0, 0]
+                frame_item = [0, 0, 0, 0, 0]# 0 : depth avg , 1 : intensity avg , 2 : tx temp , 3 : rx temp , 4 : time stamp
                 frame_num = len(result_saver)
                 for i in range(frame_num):
                     for j in range(4):  # j=  0 : depth avg , 1 : intensity avg , 2 : tx temp , 3 : rx temp
@@ -182,6 +175,19 @@ class LoggerUI(QMainWindow):
                 frame_item[4] = result_saver[0][4]  # input first frame time stamp
 
                 mi_obj.input_measurement_item(frame_item)
+
+                #mi_obj.result_table[0]-> depth data, 0:avg, 2:max, 4:min
+                # add log
+                cap_count += 1
+                self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData, mi_obj.result_table)
+                #self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData)
+
+                # img save per hour
+                if total_second / 3600 > image_save_time:
+                    image_save_time += 1
+                    pvl_f.image_save(20, 500)
+                recovery_count = 0
+
 
 
             else:
@@ -237,7 +243,7 @@ class LoggerUI(QMainWindow):
 
     def generate_log_test(self):
 
-         text = self.entry.text()
+         text = self.input_module_name.text()
          state_value = LogState.GetData  # 혹은 사용자 입력에 따라 결정
          # LogEntry 객체 생성
          log_entry = LogEntry(text, state_value)
@@ -247,14 +253,15 @@ class LoggerUI(QMainWindow):
          self.add_log(log_entry)
          self.mutex.unlock()
 
-         self.entry.clear()
+         self.input_module_name.clear()
 
-    def generate_log(self, log_entry):
+    #def generate_log(self, log_entry, result_table):
+    def generate_log_to(self, log_entry):
          self.mutex.lock()  # 뮤텍스로 데이터 접근을 보호
          self.add_log(log_entry)
          self.mutex.unlock()
 
-    def change_large_text(self, text, color):
+    def change_large_text_to(self, text, color):
 
         self.large_text_box.setStyleSheet(f"background-color: {color}; color: black;")
         self.large_text_box.setPlainText(text)
@@ -315,16 +322,16 @@ class LoggerUI(QMainWindow):
         input_layout = QHBoxLayout()
 
         # Text input field
-        self.entry = QLineEdit(self)
-        input_layout.addWidget(self.entry)
+        self.input_module_name = QLineEdit(self)
+        input_layout.addWidget(self.input_module_name)
 
         # Add log button
-        self.log_button = QPushButton('Add log', self)
+        self.start_button = QPushButton('START TEST', self)
         #self.log_button.clicked.connect(self.generate_log_test)
-        self.log_button.clicked.connect(self.start_aging_thread)
+        self.start_button.clicked.connect(self.start_aging_thread)
 
 
-        input_layout.addWidget(self.log_button)
+        input_layout.addWidget(self.start_button)
 
         data_layout = QVBoxLayout()
         self.data_line_text=""

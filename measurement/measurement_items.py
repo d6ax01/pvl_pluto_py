@@ -7,7 +7,7 @@ import os.path
 class MeasurementItems:
     def __init__(self,file_path):
         self.result_table=list()
-        self.min_max_data=list()
+        #self.min_max_data=list() # min max in result_table
         self.csv_path=file_path
         self.item_count=0
         self.total_value=[0,0,0,0]

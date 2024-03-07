@@ -1214,17 +1214,14 @@ def get_sensor_id():
 
     return str_sensorid
 
-
-def ProcCreateModuleFolder():
-    global gSaveModulePath, g20mhz30cm, g20mhz50cm, g100mhz30cm, g100mhz50cm, gSensor_id
-
+def input_module_number():
     # 2023-02-17 ::: 배중호, 심미안툴에서 센서ID 읽어오기
     msg_print(f'모듈 번호 입력 ****************************************************************************************')
     msg_print('Please enter your module number : ')
     get_module_number = input()  # (관리자모드)CMD 에서 키보드를 이용해서 모듈번호를 입력한다.
     if get_module_number == f'':
-       msg_print(f'Please enter your module number : ')
-       get_module_number = input()
+        msg_print(f'Please enter your module number : ')
+        get_module_number = input()
     # gSensor_id = get_sensor_id()
     # get_module_number = gSensor_id
 
@@ -1232,6 +1229,12 @@ def ProcCreateModuleFolder():
     if get_module_number == f'':
         msg_print(f'Can not folder creation')
         sys.exit('Error!!!!')
+    return get_module_number
+def ProcCreateModuleFolder(input_str=''):
+    global gSaveModulePath, g20mhz30cm, g20mhz50cm, g100mhz30cm, g100mhz50cm, gSensor_id
+    get_module_number=input_str
+    if get_module_number=='':
+        get_module_number=input_module_number()
 
     print("  Module Number : ", get_module_number)
     gSaveModulePath = f'%s\%s' % (gRootSavePath, get_module_number)  # 모듈의 저장 경로

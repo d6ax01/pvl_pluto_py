@@ -1,0 +1,94 @@
+Microsoft (R) COFF/PE Dumper Version 14.27.29112.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file c_simmian_api_x64.dll
+
+File Type: DLL
+
+  Section contains the following exports for c_simmian_api_x64.dll
+
+    00000000 characteristics
+    FFFFFFFF time date stamp
+        0.00 version
+           1 ordinal base
+          66 number of functions
+          66 number of names
+
+    ordinal hint RVA      name
+
+          1    0 0000E1E0 AverageCapture
+          2    1 00012980 CalcSNR
+          3    2 00014340 CalcSNRwithAVGFrame
+          4    3 0000D380 Capture
+          5    4 0000B2D0 Connect
+          6    5 0000B3C0 Disconnect
+          7    6 00012360 Get2PDDecoderSubOption
+          8    7 0000FA40 GetBayerOrder
+          9    8 00011A40 GetBoardCount
+         10    9 00011BB0 GetBoardFWVersion
+         11    A 00012030 GetBoardName
+         12    B 0000F6B0 GetBoardPLLClock
+         13    C 000121B0 GetDecoderSubOption
+         14    D 00014D30 GetFrameData
+         15    E 00015230 GetFrameWithInterleavedData
+         16    F 000150F0 GetInterleavedDataSizeArray
+         17   10 00011D30 GetNxSimmianSWVersion
+         18   11 0000F540 GetPClk
+         19   12 000111D0 GetROIRect
+         20   13 0000F0A0 GetRawFrameInfo
+         21   14 0000F1D0 GetRenderFrameData
+         22   15 0000EF80 GetRenderImageInfo
+         23   16 000104F0 GetResult
+         24   17 00010580 GetResultByTag
+         25   18 000106C0 GetResultValueByTag
+         26   19 0000F820 GetSelectedDecoder
+         27   1A 0000F3D0 GetSensorFPS
+         28   1B 00011EB0 GetSensorName
+         29   1C 00011AB0 GetTitleName
+         30   1D 0000CCD0 GridROIMultiCapture
+         31   1E 0000C490 I2CRead
+         32   1F 0000C720 I2CWrite
+         33   20 0000B3E0 IsConnected
+         34   21 0000BF60 LoadRegisterMap
+         35   22 0000DCA0 LoadSetfile
+         36   23 0000C860 MultiCapture
+         37   24 0000B420 Play
+         38   25 0000BB50 RegisterRead
+         39   26 0000B5F0 RegisterReadBySymbol
+         40   27 0000BD50 RegisterWrite
+         41   28 0000B960 RegisterWriteBySymbol
+         42   29 0000B560 Reset
+         43   2A 0000C0A0 SPIRead
+         44   2B 0000C330 SPIWrite
+         45   2C 0000EB30 SequentialCapture
+         46   2D 000114E0 Set2PD
+         47   2E 00011790 Set2PDDecoderSubOption
+         48   2F 000115A0 Set2PDMode
+         49   30 0000FBC0 SetBayerOrder
+         50   31 0000FCC0 SetClipROI
+         51   32 0000F900 SetDecoder
+         52   33 00011960 SetDecoderSubOption
+         53   34 00015360 SetDeviceAddress
+         54   35 00010070 SetEITbyLSB
+         55   36 000112E0 SetROIRect
+         56   37 000113F0 SetRawBitDepth
+         57   38 00011660 SetRawDecoderFrameFrameDecompress
+         58   39 0000B210 SkipFrame
+         59   3A 0000E150 SlowmotionManualCue
+         60   3B 0000DDE0 SlowmotionSetOptions
+         61   3C 0000E030 SlowmotionStartRecord
+         62   3D 0000E0C0 SlowmotionStopRecord
+         63   3E 0000DF40 SlowmotionWriteRegisters
+         64   3F 0000B4C0 Stop
+         65   40 00010410 UserCommand
+         66   41 0000B200 Version
+
+  Summary
+
+        F000 .data
+       16000 .pdata
+       A6000 .rdata
+        F000 .reloc
+        1000 .rsrc
+      1C7000 .text

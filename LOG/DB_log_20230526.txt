@@ -1,0 +1,86 @@
+[10:32:03.226]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:32:03.227]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:32:03.918]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:32:03.919]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:47:12.487]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:47:12.488]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:47:13.234]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:47:13.237]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:50:05.146]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:50:05.146]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:50:06.894]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:50:06.896]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:52:24.326]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:52:24.327]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:52:25.586]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:52:25.588]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:55:41.079]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:55:41.079]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:55:41.959]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:55:41.960]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:58:31.972]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:58:31.973]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[10:58:33.069]Lot DB Path : S:\LOG_DATA\VST_VAL
+[10:58:33.074]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:03:41.407]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:03:41.408]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:03:41.697]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:03:41.698]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:20:05.552]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:20:05.555]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:20:05.626]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:20:05.627]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:23:25.250]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:23:25.251]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:23:27.673]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:23:27.674]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:29:49.802]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:29:49.803]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[11:29:50.166]Lot DB Path : S:\LOG_DATA\VST_VAL
+[11:29:50.168]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:09:37.448]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:09:37.449]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:09:46.037]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:09:46.038]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:17:48.854]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:17:48.855]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:17:50.207]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:17:50.208]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:35:41.246]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:35:41.247]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:35:42.172]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:35:42.175]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:52:01.344]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:52:01.345]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[13:52:01.975]Lot DB Path : S:\LOG_DATA\VST_VAL
+[13:52:01.977]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[14:02:59.345]Lot DB Path : S:\LOG_DATA\VST_VAL
+[14:02:59.346]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[14:03:01.482]Lot DB Path : S:\LOG_DATA\VST_VAL
+[14:03:01.484]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[14:06:08.196]Lot DB Path : S:\LOG_DATA\VST_VAL
+[14:06:08.197]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[14:06:08.759]Lot DB Path : S:\LOG_DATA\VST_VAL
+[14:06:08.761]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[14:19:47.318]Lot DB Path : S:\LOG_DATA\VST_VAL
+[14:19:47.319]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[14:19:48.093]Lot DB Path : S:\LOG_DATA\VST_VAL
+[14:19:48.096]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:27:06.187]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:27:06.188]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:27:06.490]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:27:06.491]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:30:57.926]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:30:57.927]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:30:59.277]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:30:59.279]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:32:20.159]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:32:20.159]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:43:31.494]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:43:31.495]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:43:32.690]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:43:32.691]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:48:12.170]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:48:12.171]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[15:48:13.736]Lot DB Path : S:\LOG_DATA\VST_VAL
+[15:48:13.737]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file

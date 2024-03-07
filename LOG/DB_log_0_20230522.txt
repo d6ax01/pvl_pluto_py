@@ -1,0 +1,42 @@
+[12:38:22.125]LoadInitDBData
+[12:38:22.357]ByteToStrSensorID : 231D111C01C994A0004003603D
+[12:38:22.360]SetDataValue : Error_CT_300_f1, 300.960724
+[12:38:22.361]SetDataValue : Error_CT_500_f1, 500.990021
+[12:38:22.362]SetDataValue : Error_LT_500_f1, 518.251953
+[12:38:22.362]SetDataValue : Error_RT_500_f1, 511.200531
+[12:38:22.362]SetDataValue : Error_RB_500_f1, 502.100220
+[12:38:22.362]SetDataValue : Error_LB_500_f1, 509.456787
+[12:38:22.363]SetDataValue : Noise_CT_500_f1, 0.698961
+[12:38:22.363]SetDataValue : Noise_LT_500_f1, 2.018660
+[12:38:22.363]SetDataValue : Noise_RT_500_f1, 1.295052
+[12:38:22.364]SetDataValue : Noise_RB_500_f1, 1.320528
+[12:38:22.364]SetDataValue : Noise_LB_500_f1, 1.098566
+[12:38:22.364]SetDataValue : Intensity_CT_500_f1, 4474.640137
+[12:38:22.364]SetDataValue : Intensity_LT_500_f1, 5454.600098
+[12:38:22.365]SetDataValue : Intensity_RT_500_f1, 5408.080078
+[12:38:22.365]SetDataValue : Intensity_RB_500_f1, 5165.493164
+[12:38:22.365]SetDataValue : Intensity_LB_500_f1, 5424.106445
+[12:38:22.366]SetDataValue : board_offset_f1, 16042.000000
+[12:38:22.366]SetDataValue : APC_Check_2700mA_f1, 619.000000
+[12:38:22.366]SetDataValue : APC_Check_1500mA_f1, 370.000000
+[12:38:22.366]SetDataValue : Error_CT_300_f2, 289.263916
+[12:38:22.366]SetDataValue : Error_CT_500_f2, 495.935059
+[12:38:22.367]SetDataValue : Error_LT_500_f2, 513.195801
+[12:38:22.367]SetDataValue : Error_RT_500_f2, 505.981445
+[12:38:22.367]SetDataValue : Error_RB_500_f2, 498.693848
+[12:38:22.368]SetDataValue : Error_LB_500_f2, 504.031372
+[12:38:22.368]SetDataValue : Noise_CT_500_f2, 2.086379
+[12:38:22.368]SetDataValue : Noise_LT_500_f2, 3.673333
+[12:38:22.368]SetDataValue : Noise_RT_500_f2, 2.806170
+[12:38:22.368]SetDataValue : Noise_RB_500_f2, 2.645908
+[12:38:22.369]SetDataValue : Noise_LB_500_f2, 3.382161
+[12:38:22.369]SetDataValue : Intensity_CT_500_f2, 16025.973633
+[12:38:22.369]SetDataValue : Intensity_LT_500_f2, 12940.506836
+[12:38:22.369]SetDataValue : Intensity_RT_500_f2, 16077.733398
+[12:38:22.369]SetDataValue : Intensity_RB_500_f2, 20631.414063
+[12:38:22.370]SetDataValue : Intensity_LB_500_f2, 17132.400391
+[12:38:22.370]SetDataValue : board_offset_f2, 16311.000000
+[12:38:22.370]SetDataValue : APC_Check_2700mA_f2, 619.000000
+[12:38:22.370]SetDataValue : APC_Check_1500mA_f2, 370.000000
+[12:38:22.373]SetJudgeCode : 0
+[12:38:22.385]UploadDBData

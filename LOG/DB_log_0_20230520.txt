@@ -1,0 +1,42 @@
+[12:41:12.600]LoadInitDBData
+[12:41:12.863]ByteToStrSensorID : 00000000000000000000000000
+[12:41:12.866]SetDataValue : Error_CT_300_f1, 0.000000
+[12:41:12.868]SetDataValue : Error_CT_500_f1, 0.000000
+[12:41:12.868]SetDataValue : Error_LT_500_f1, 0.000000
+[12:41:12.868]SetDataValue : Error_RT_500_f1, 0.000000
+[12:41:12.869]SetDataValue : Error_RB_500_f1, 0.000000
+[12:41:12.869]SetDataValue : Error_LB_500_f1, 0.000000
+[12:41:12.869]SetDataValue : Noise_CT_500_f1, 0.000000
+[12:41:12.871]SetDataValue : Noise_LT_500_f1, 0.000000
+[12:41:12.871]SetDataValue : Noise_RT_500_f1, 0.000000
+[12:41:12.872]SetDataValue : Noise_RB_500_f1, 0.000000
+[12:41:12.872]SetDataValue : Noise_LB_500_f1, 0.000000
+[12:41:12.873]SetDataValue : Intensity_CT_500_f1, 0.000000
+[12:41:12.873]SetDataValue : Intensity_LT_500_f1, 0.000000
+[12:41:12.874]SetDataValue : Intensity_RT_500_f1, 0.000000
+[12:41:12.874]SetDataValue : Intensity_RB_500_f1, 0.000000
+[12:41:12.874]SetDataValue : Intensity_LB_500_f1, 0.000000
+[12:41:12.874]SetDataValue : board_offset_f1, 0.000000
+[12:41:12.874]SetDataValue : APC_Check_2700mA_f1, 0.000000
+[12:41:12.875]SetDataValue : APC_Check_1500mA_f1, 0.000000
+[12:41:12.875]SetDataValue : Error_CT_300_f2, 0.000000
+[12:41:12.875]SetDataValue : Error_CT_500_f2, 0.000000
+[12:41:12.875]SetDataValue : Error_LT_500_f2, 0.000000
+[12:41:12.877]SetDataValue : Error_RT_500_f2, 0.000000
+[12:41:12.877]SetDataValue : Error_RB_500_f2, 0.000000
+[12:41:12.877]SetDataValue : Error_LB_500_f2, 0.000000
+[12:41:12.877]SetDataValue : Noise_CT_500_f2, 0.000000
+[12:41:12.877]SetDataValue : Noise_LT_500_f2, 0.000000
+[12:41:12.878]SetDataValue : Noise_RT_500_f2, 0.000000
+[12:41:12.878]SetDataValue : Noise_RB_500_f2, 0.000000
+[12:41:12.878]SetDataValue : Noise_LB_500_f2, 0.000000
+[12:41:12.879]SetDataValue : Intensity_CT_500_f2, 0.000000
+[12:41:12.879]SetDataValue : Intensity_LT_500_f2, 0.000000
+[12:41:12.879]SetDataValue : Intensity_RT_500_f2, 0.000000
+[12:41:12.880]SetDataValue : Intensity_RB_500_f2, 0.000000
+[12:41:12.880]SetDataValue : Intensity_LB_500_f2, 0.000000
+[12:41:12.880]SetDataValue : board_offset_f2, 0.000000
+[12:41:12.880]SetDataValue : APC_Check_2700mA_f2, 0.000000
+[12:41:12.880]SetDataValue : APC_Check_1500mA_f2, 0.000000
+[12:41:12.884]SetJudgeCode : 100
+[12:41:12.888]Not Upload Check

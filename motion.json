@@ -1,0 +1,24 @@
+{
+    "motor":
+    {
+        "axis_no" : 0,
+        "max_speed" : 1000,
+        "neg_limit" : 0,
+        "pos_limit" : 3200,
+        "origin_type" : 10,
+        "speed_origin" : 1,
+        "motor_type" : 0,
+        "resolution" : 0.00215
+    },
+    "config":
+    {
+        "port" : "COM1",
+        "port_num" : 1,
+        "single_control" : 1
+    },
+    "default":
+    {
+        "acceleration" : 2000,
+        "deceleration" : 2000
+    }
+}

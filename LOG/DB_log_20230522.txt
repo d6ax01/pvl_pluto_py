@@ -1,0 +1,4 @@
+[12:38:18.105]Lot DB Path : S:\LOG_DATA\VST_VAL
+[12:38:18.106]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file
+[12:38:18.613]Lot DB Path : S:\LOG_DATA\VST_VAL
+[12:38:18.615]DB ERROR : SQLITE_CANTOPEN[14]: unable to open database file

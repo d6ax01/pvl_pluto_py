@@ -1,0 +1,126 @@
+[15:36:04.684]LoadInitDBData
+[15:36:04.906]ByteToStrSensorID : 00000000000000000000000000
+[15:36:04.922]SetDataValue : Error_CT_300_f1, 0.000000
+[15:36:04.922]SetDataValue : Error_CT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Error_LT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Error_RT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Error_RB_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Error_LB_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Noise_CT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Noise_LT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Noise_RT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Noise_RB_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Noise_LB_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Intensity_CT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Intensity_LT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Intensity_RT_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Intensity_RB_500_f1, 0.000000
+[15:36:04.922]SetDataValue : Intensity_LB_500_f1, 0.000000
+[15:36:04.922]SetDataValue : board_offset_f1, 0.000000
+[15:36:04.922]SetDataValue : APC_Check_2700mA_f1, 0.000000
+[15:36:04.922]SetDataValue : APC_Check_1500mA_f1, 0.000000
+[15:36:04.922]SetDataValue : Error_CT_300_f2, 0.000000
+[15:36:04.922]SetDataValue : Error_CT_500_f2, 0.000000
+[15:36:04.922]SetDataValue : Error_LT_500_f2, 0.000000
+[15:36:04.922]SetDataValue : Error_RT_500_f2, 0.000000
+[15:36:04.922]SetDataValue : Error_RB_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Error_LB_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Noise_CT_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Noise_LT_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Noise_RT_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Noise_RB_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Noise_LB_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Intensity_CT_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Intensity_LT_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Intensity_RT_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Intensity_RB_500_f2, 0.000000
+[15:36:04.937]SetDataValue : Intensity_LB_500_f2, 0.000000
+[15:36:04.937]SetDataValue : board_offset_f2, 0.000000
+[15:36:04.937]SetDataValue : APC_Check_2700mA_f2, 0.000000
+[15:36:04.937]SetDataValue : APC_Check_1500mA_f2, 0.000000
+[15:36:04.937]SetJudgeCode : 100
+[15:36:04.953]UploadDBData
+[15:52:37.839]LoadInitDBData
+[15:52:38.171]ByteToStrSensorID : 00000000000000000000000000
+[15:52:38.171]SetDataValue : Error_CT_300_f1, 0.000000
+[15:52:38.171]SetDataValue : Error_CT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Error_LT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Error_RT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Error_RB_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Error_LB_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Noise_CT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Noise_LT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Noise_RT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Noise_RB_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Noise_LB_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Intensity_CT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Intensity_LT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Intensity_RT_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Intensity_RB_500_f1, 0.000000
+[15:52:38.171]SetDataValue : Intensity_LB_500_f1, 0.000000
+[15:52:38.171]SetDataValue : board_offset_f1, 0.000000
+[15:52:38.187]SetDataValue : APC_Check_2700mA_f1, 0.000000
+[15:52:38.187]SetDataValue : APC_Check_1500mA_f1, 0.000000
+[15:52:38.187]SetDataValue : Error_CT_300_f2, 0.000000
+[15:52:38.187]SetDataValue : Error_CT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Error_LT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Error_RT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Error_RB_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Error_LB_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Noise_CT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Noise_LT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Noise_RT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Noise_RB_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Noise_LB_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Intensity_CT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Intensity_LT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Intensity_RT_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Intensity_RB_500_f2, 0.000000
+[15:52:38.187]SetDataValue : Intensity_LB_500_f2, 0.000000
+[15:52:38.187]SetDataValue : board_offset_f2, 0.000000
+[15:52:38.187]SetDataValue : APC_Check_2700mA_f2, 0.000000
+[15:52:38.187]SetDataValue : APC_Check_1500mA_f2, 0.000000
+[15:52:38.187]SetJudgeCode : 100
+[15:52:38.202]UploadDBData
+[15:56:49.895]LoadInitDBData
+[15:56:50.125]ByteToStrSensorID : 231C1D0705AC87A0004003603D
+[15:56:50.128]SetDataValue : Error_CT_300_f1, 311.126099
+[15:56:50.128]SetDataValue : Error_CT_500_f1, 503.146362
+[15:56:50.128]SetDataValue : Error_LT_500_f1, 523.425293
+[15:56:50.129]SetDataValue : Error_RT_500_f1, 509.607574
+[15:56:50.129]SetDataValue : Error_RB_500_f1, 508.933136
+[15:56:50.129]SetDataValue : Error_LB_500_f1, 522.534790
+[15:56:50.130]SetDataValue : Noise_CT_500_f1, 2.072976
+[15:56:50.130]SetDataValue : Noise_LT_500_f1, 2.825548
+[15:56:50.130]SetDataValue : Noise_RT_500_f1, 1.753199
+[15:56:50.131]SetDataValue : Noise_RB_500_f1, 2.555595
+[15:56:50.131]SetDataValue : Noise_LB_500_f1, 3.699640
+[15:56:50.131]SetDataValue : Intensity_CT_500_f1, 4391.133301
+[15:56:50.132]SetDataValue : Intensity_LT_500_f1, 4933.759766
+[15:56:50.133]SetDataValue : Intensity_RT_500_f1, 5563.333496
+[15:56:50.133]SetDataValue : Intensity_RB_500_f1, 5379.479980
+[15:56:50.133]SetDataValue : Intensity_LB_500_f1, 4844.986816
+[15:56:50.134]SetDataValue : board_offset_f1, 16298.000000
+[15:56:50.134]SetDataValue : APC_Check_2700mA_f1, 815.000000
+[15:56:50.134]SetDataValue : APC_Check_1500mA_f1, 495.000000
+[15:56:50.135]SetDataValue : Error_CT_300_f2, 275.823975
+[15:56:50.135]SetDataValue : Error_CT_500_f2, 501.715088
+[15:56:50.135]SetDataValue : Error_LT_500_f2, 515.829468
+[15:56:50.135]SetDataValue : Error_RT_500_f2, 502.691650
+[15:56:50.136]SetDataValue : Error_RB_500_f2, 508.593750
+[15:56:50.136]SetDataValue : Error_LB_500_f2, 522.149658
+[15:56:50.137]SetDataValue : Noise_CT_500_f2, 3.296823
+[15:56:50.137]SetDataValue : Noise_LT_500_f2, 3.677180
+[15:56:50.137]SetDataValue : Noise_RT_500_f2, 2.522196
+[15:56:50.137]SetDataValue : Noise_RB_500_f2, 4.019535
+[15:56:50.138]SetDataValue : Noise_LB_500_f2, 4.893425
+[15:56:50.138]SetDataValue : Intensity_CT_500_f2, 15627.040039
+[15:56:50.138]SetDataValue : Intensity_LT_500_f2, 15111.733398
+[15:56:50.138]SetDataValue : Intensity_RT_500_f2, 17179.093750
+[15:56:50.139]SetDataValue : Intensity_RB_500_f2, 19961.279297
+[15:56:50.139]SetDataValue : Intensity_LB_500_f2, 18117.707031
+[15:56:50.139]SetDataValue : board_offset_f2, 16311.000000
+[15:56:50.140]SetDataValue : APC_Check_2700mA_f2, 815.000000
+[15:56:50.140]SetDataValue : APC_Check_1500mA_f2, 495.000000
+[15:56:50.143]SetJudgeCode : 0
+[15:56:50.156]UploadDBData

@@ -133,7 +133,7 @@ class LoggerUI(QMainWindow):
             sim_state = pvl_f.RecoverySim()
 
         # 모듈 번호 입력 ***************************************************************************************************
-        fc_vt.ProcCreateModuleFolder(self.input_module_name)
+        fc_vt.ProcCreateModuleFolder(self.input_module_name.text())
         start_time = datetime.datetime.now()
         next_frame_time = 0
         test_during_time = 60 * 60 * 200

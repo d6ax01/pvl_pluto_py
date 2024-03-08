@@ -4,6 +4,20 @@ from PyQt5.QtCore import QDateTime,pyqtSignal, QMutex, QObject,Qt
 from PyQt5.QtGui import QTextCursor,QTextBlockFormat
 from enum import Enum
 
+import os
+import main
+import FactoryCode_verify_TemperatureVariation as fc_vt
+import time  # sleep 함수 사용
+import datetime
+import python_simmian_api
+import sys
+import threading
+from pyqt_ui.log_ui import *
+
+from shutil import copyfile
+from measurement import embedded_data_parser, measurement_items as mi
+import numpy as np
+import pvl_func.pvl_func as pvl_f
 
 class LogState(Enum):
     Fail=-1
@@ -12,9 +26,10 @@ class LogState(Enum):
     Recovery=2
 
 class LogEntry:
-    def __init__(self, text, _logState=LogState.NoData):
+    def __init__(self, text, _logState=LogState.NoData, total_data=dict()):
         self.text = text
         self.log_state = _logState
+        self.total_data=total_data
         self.timestamp = QDateTime.currentDateTime()
 
 
@@ -31,8 +46,8 @@ class LoggerUI(QMainWindow):
         self.controller=controller
         self.initUI()
         self.mutex = QMutex()  # 뮤텍스 생성
-        self.generate_log_signal.connect(self.generate_log)  # 시그널 연결
-        self.change_large_text_signal.connect(self.change_large_text)  # 시그널 연결
+        self.generate_log_signal.connect(self.generate_log_to)  # 시그널 연결
+        self.change_large_text_signal.connect(self.change_large_text_to)  # 시그널 연결
 
 
     def initUI(self):
@@ -93,15 +108,151 @@ class LoggerUI(QMainWindow):
         self.log.insertHtml("<span style='background-color:none;'><br></span>")
         #self.log.insertHtml("<div style='background-color:white;'><br></div>")
 
-        #min max 관련
+        self.data_line_text=""
+        for key,val in log_entry.total_data.items():
+            self.data_line_text+=key
+            self.data_line_text+=str(round(val,2))
+        self.data_line.setText(self.data_line_text)
         #self.data_line_min = log_entry.min
         #self.data_line_max = log_entry.max
         #self.data_line_avg = log_entry.avg
         #self.data_line_text = f"min= {self.data_line_min} , max= {self.data_line_max} , avg= {self.data_line_avg} , frame_count= {log_entry.frame_count} "
 
+
+    def start_aging_thread(self):
+        self.input_module_name_text=self.input_module_name.text()
+        self.work_thread = threading.Thread(target=self.start_aging_test)
+        self.work_thread.start()
+        self.start_button.setDisabled(True)
+
+    def start_aging_test(self):
+
+        sim_state = False
+        recovery_count = 0
+        while sim_state is False:
+            recovery_count += 1
+            # add log
+            self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Recovery)
+            self.controller.change_large_text(f"SETTING : {recovery_count}", "lightcoral")
+
+            sim_state = pvl_f.RecoverySim()
+
+        # 모듈 번호 입력 ***************************************************************************************************
+        fc_vt.ProcCreateModuleFolder(self.input_module_name_text)
+        start_time = datetime.datetime.now()
+        next_frame_time = 0
+        test_during_time = 60 * 60 * 200
+        image_save_time = 0
+        # init_setFile()
+        total_data = {'total_count': 0, 'avg': 0, 'min': 0, 'max': 0}  # count, totalval,avg,min,max
+        # total_data=[0,0,0,0,0]#count, totalval,avg,min,max
+        recovery_count = 0
+        cap_count = 0
+        total_second = 0
+        frame_item = list()
+
+        mi_path = fc_vt.get_path()
+        mi_obj = mi.MeasurementItems(mi_path)
+        next_frame_time = start_time
+
+        self.controller.change_large_text("RUNNING", "lightgreen")
+        while total_second < test_during_time:
+            # check 10s
+            if (next_frame_time - datetime.datetime.now()).total_seconds() > 0:
+                time.sleep(0.05)
+                continue
+            next_frame_time = next_frame_time + datetime.timedelta(seconds=10)
+            result_saver = list()
+
+            total_second = (datetime.datetime.now() - start_time).total_seconds()
+            time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
+            # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
+            data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500, result_saver)  # 500 mm 에서 평가
+
+            if data_get_bool:
+                # get easurement item from capture data
+                frame_item = [0, 0, 0, 0, 0]# 0 : depth avg , 1 : intensity avg , 2 : tx temp , 3 : rx temp , 4 : time stamp
+                frame_num = len(result_saver)
+                for i in range(frame_num):
+                    for j in range(4):  # j=  0 : depth avg , 1 : intensity avg , 2 : tx temp , 3 : rx temp
+                        frame_item[j] += result_saver[i][j]
+                for j in range(4):
+                    frame_item[j] /= frame_num
+                frame_item[4] = result_saver[0][4]  # input first frame time stamp
+
+                mi_obj.input_measurement_item(frame_item)
+
+                #mi_obj.result_table[0]-> depth data, 0:avg, 2:max, 4:min
+                # add log
+                cap_count += 1
+                total_data = {' total_count : ': cap_count, ' , avg : ': mi_obj.result_table[0][0], ' , min : ': mi_obj.result_table[0][4], ' , max : ': mi_obj.result_table[0][2]}  # count, totalval,avg,min,max
+                self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData, total_data)
+                self.controller.change_large_text(f"RUNNING : {cap_count}", "lightgreen")
+
+                #self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData)
+
+                # img save per hour
+                if total_second / 3600 > image_save_time:
+                    image_save_time += 1
+                    pvl_f.image_save(20, 500)
+                recovery_count = 0
+
+
+
+            else:
+                sim_state = False
+                while sim_state is False and recovery_count < 20:
+                    recovery_count += 1
+                    # add log
+                    self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Recovery)
+                    self.controller.change_large_text(f"RECOVERY : {recovery_count}", "lightcoral")
+                    sim_state = pvl_f.RecoverySim()
+                if recovery_count == 20:
+                    # add log
+                    self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Fail)
+                    self.controller.change_large_text("FAIL", "red")
+                    # 로그에 init count max를 입력하고 프로그램 종료
+                    break
+                else:
+                    pvl_f.init_setFile()
+
+            fc_vt.ProcCreateReport(1)  # 0 -> find global offset , 1 -> only measurement
+
+        # RAW 저장 (위치 : 500 mm ) *********************************************************************************
+        # while time.time()<start_time+test_during_time:
+        #     try:
+        #         time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
+        #         # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
+        #         data_get_bool=ProcSaveRaw(1, 20, 500)  # 500 mm 에서 평가
+        #         if data_get_bool:
+        #             fc_vt.ProcCreateReport(1)  # 0 -> find global offset , 1 -> only measurement
+        #             init_count = 0
+        #         else:
+        #
+        #             raise Exception
+        #     except:
+        #         init_count+=1
+        #         init()
+        #         if init_count==10:
+        #             break
+
+        # 심미안 리셋 ******************************************************************************************************
+        fc_vt.msg_print(f'심미안을 리셋합니다.')
+        fc_vt.ProcSimmianReset()
+
+        # 심미안 종료 ******************************************************************************************************
+        fc_vt.msg_print(f'심미안을 종료합니다.')
+        fc_vt.ProcSimmianStop()
+
+        # 모터 닫기 ********************************************************************************************************
+        fc_vt.msg_print(f'모터와 통신을 종료합니다.')
+        fc_vt.ProcMotorClose()
+        fc_vt.msg_print("done. please replace with next module")
+        fc_vt.sys.exit()
+
     def generate_log_test(self):
 
-         text = self.entry.text()
+         text = self.input_module_name.text()
          state_value = LogState.GetData  # 혹은 사용자 입력에 따라 결정
          # LogEntry 객체 생성
          log_entry = LogEntry(text, state_value)
@@ -111,17 +262,23 @@ class LoggerUI(QMainWindow):
          self.add_log(log_entry)
          self.mutex.unlock()
 
-         self.entry.clear()
+         self.input_module_name.clear()
 
-    def generate_log(self, log_entry):
+    #def generate_log(self, log_entry, result_table):
+    def generate_log_to(self, log_entry):
          self.mutex.lock()  # 뮤텍스로 데이터 접근을 보호
          self.add_log(log_entry)
          self.mutex.unlock()
 
-    def change_large_text(self, text, color):
+    def change_large_text_to(self, text, color):
+
         self.large_text_box.setStyleSheet(f"background-color: {color}; color: black;")
         self.large_text_box.setPlainText(text)
         self.large_text_box.setAlignment(Qt.AlignCenter)  # Center-align text
+
+        self.main_text_box.setStyleSheet(f"background-color: {color}; color: black;")
+        self.main_text_box.setText(text)
+        self.main_text_box.setAlignment(Qt.AlignCenter)  # Center-align text
 
 
     def main_tab_UI(self):
@@ -165,6 +322,7 @@ class LoggerUI(QMainWindow):
         for i in range(4):
                 self.data_line_text+=self.data_line_text_list[i]
                 self.data_line_text+=str(self.data_line_data_list[i])
+        self.data_line.setText(self.data_line_text)
 
     def log_tab_UI(self):
         # 레이아웃 설정
@@ -174,18 +332,21 @@ class LoggerUI(QMainWindow):
         input_layout = QHBoxLayout()
 
         # Text input field
-        self.entry = QLineEdit(self)
-        input_layout.addWidget(self.entry)
+        self.input_module_name = QLineEdit(self)
+        input_layout.addWidget(self.input_module_name)
 
         # Add log button
-        self.log_button = QPushButton('Add log', self)
-        self.log_button.clicked.connect(self.generate_log_test)
-        input_layout.addWidget(self.log_button)
+        self.start_button = QPushButton('START TEST', self)
+        #self.log_button.clicked.connect(self.generate_log_test)
+        self.start_button.clicked.connect(self.start_aging_thread)
+
+
+        input_layout.addWidget(self.start_button)
 
         data_layout = QVBoxLayout()
         self.data_line_text=""
         self.data_line_text_list = ["min= "," , max= "," , avg= "," , frame_count= "]
-        self.data_line_data_list = [0]*4
+        self.data_line_data_list = [0]*4 #min max avg count
         # self.data_line = QTextEdit(self)
         # self.data_line.setFixedHeight(40)  # Adjust height as needed
         # self.data_line.setReadOnly(True)

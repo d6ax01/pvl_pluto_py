@@ -12,8 +12,8 @@ class LoggerController(QObject):
         super().__init__()
         self.log_entries=[]
 
-    def generate_log(self, text, log_state):
-        log_entry = LogEntry(text, log_state)
+    def generate_log(self, text, log_state, total_data=dict()):
+        log_entry = LogEntry(text, log_state,total_data)
         self.log_entries.append(log_entry)
         self.generate_log_signal.emit(log_entry)
 

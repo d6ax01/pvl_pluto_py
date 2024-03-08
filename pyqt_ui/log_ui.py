@@ -26,10 +26,10 @@ class LogState(Enum):
     Recovery=2
 
 class LogEntry:
-    def __init__(self, text, _logState=LogState.NoData, result_table=[]):
+    def __init__(self, text, _logState=LogState.NoData, total_data=dict()):
         self.text = text
         self.log_state = _logState
-        self.result_table=result_table
+        self.total_data=total_data
         self.timestamp = QDateTime.currentDateTime()
 
 
@@ -108,7 +108,11 @@ class LoggerUI(QMainWindow):
         self.log.insertHtml("<span style='background-color:none;'><br></span>")
         #self.log.insertHtml("<div style='background-color:white;'><br></div>")
 
-        #min max 관련
+        self.data_line_text=""
+        for key,val in log_entry.total_data.items():
+            self.data_line_text+=key
+            self.data_line_text+=str(round(val,2))
+        self.data_line.setText(self.data_line_text)
         #self.data_line_min = log_entry.min
         #self.data_line_max = log_entry.max
         #self.data_line_avg = log_entry.avg
@@ -116,6 +120,7 @@ class LoggerUI(QMainWindow):
 
 
     def start_aging_thread(self):
+        self.input_module_name_text=self.input_module_name.text()
         self.work_thread = threading.Thread(target=self.start_aging_test)
         self.work_thread.start()
         self.start_button.setDisabled(True)
@@ -128,18 +133,18 @@ class LoggerUI(QMainWindow):
             recovery_count += 1
             # add log
             self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Recovery)
-            self.controller.change_large_text("SETTING", "cadetblue")
+            self.controller.change_large_text(f"SETTING : {recovery_count}", "lightcoral")
 
             sim_state = pvl_f.RecoverySim()
 
         # 모듈 번호 입력 ***************************************************************************************************
-        fc_vt.ProcCreateModuleFolder(self.input_module_name.text())
+        fc_vt.ProcCreateModuleFolder(self.input_module_name_text)
         start_time = datetime.datetime.now()
         next_frame_time = 0
         test_during_time = 60 * 60 * 200
         image_save_time = 0
         # init_setFile()
-        total_data = {'total_count': 0, 'total_val': 0, 'avg': 0, 'min': 0, 'max': 0}  # count, totalval,avg,min,max
+        total_data = {'total_count': 0, 'avg': 0, 'min': 0, 'max': 0}  # count, totalval,avg,min,max
         # total_data=[0,0,0,0,0]#count, totalval,avg,min,max
         recovery_count = 0
         cap_count = 0
@@ -149,6 +154,8 @@ class LoggerUI(QMainWindow):
         mi_path = fc_vt.get_path()
         mi_obj = mi.MeasurementItems(mi_path)
         next_frame_time = start_time
+
+        self.controller.change_large_text("RUNNING", "lightgreen")
         while total_second < test_during_time:
             # check 10s
             if (next_frame_time - datetime.datetime.now()).total_seconds() > 0:
@@ -158,7 +165,6 @@ class LoggerUI(QMainWindow):
             result_saver = list()
 
             total_second = (datetime.datetime.now() - start_time).total_seconds()
-            self.controller.change_large_text("RUNNING", "lightgreen")
             time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
             # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
             data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500, result_saver)  # 500 mm 에서 평가
@@ -179,7 +185,10 @@ class LoggerUI(QMainWindow):
                 #mi_obj.result_table[0]-> depth data, 0:avg, 2:max, 4:min
                 # add log
                 cap_count += 1
-                self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData, mi_obj.result_table)
+                total_data = {' total_count : ': cap_count, ' , avg : ': mi_obj.result_table[0][0], ' , min : ': mi_obj.result_table[0][4], ' , max : ': mi_obj.result_table[0][2]}  # count, totalval,avg,min,max
+                self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData, total_data)
+                self.controller.change_large_text(f"RUNNING : {cap_count}", "lightgreen")
+
                 #self.controller.generate_log(f"Data_get : {cap_count}", LogState.GetData)
 
                 # img save per hour
@@ -192,11 +201,11 @@ class LoggerUI(QMainWindow):
 
             else:
                 sim_state = False
-                self.controller.change_large_text("RECOVERY", "lightcoral")
                 while sim_state is False and recovery_count < 20:
                     recovery_count += 1
                     # add log
                     self.controller.generate_log(f"recovery_count : {recovery_count}", LogState.Recovery)
+                    self.controller.change_large_text(f"RECOVERY : {recovery_count}", "lightcoral")
                     sim_state = pvl_f.RecoverySim()
                 if recovery_count == 20:
                     # add log
@@ -313,6 +322,7 @@ class LoggerUI(QMainWindow):
         for i in range(4):
                 self.data_line_text+=self.data_line_text_list[i]
                 self.data_line_text+=str(self.data_line_data_list[i])
+        self.data_line.setText(self.data_line_text)
 
     def log_tab_UI(self):
         # 레이아웃 설정
@@ -336,7 +346,7 @@ class LoggerUI(QMainWindow):
         data_layout = QVBoxLayout()
         self.data_line_text=""
         self.data_line_text_list = ["min= "," , max= "," , avg= "," , frame_count= "]
-        self.data_line_data_list = [0]*4
+        self.data_line_data_list = [0]*4 #min max avg count
         # self.data_line = QTextEdit(self)
         # self.data_line.setFixedHeight(40)  # Adjust height as needed
         # self.data_line.setReadOnly(True)

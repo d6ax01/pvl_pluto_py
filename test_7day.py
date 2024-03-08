@@ -23,9 +23,60 @@ def run_ui(controller):
     app.exec_()
 
 
+def check_str(s):
+    answer = 1
+    diff = 0
+    if (len(s) == 0):
+        return 0
+    check_str = s[0]
+    check_idx = 0
+    for idx, i in enumerate(s):
+        if check_str == i:
+            diff += 1
+        else:
+            diff -= 1
+        if diff == 0:
+            check_idx = idx
+            break
+    check_idx += 1
+    if check_idx != len(s) and diff == 0:
+        # if len(s[check_idx:])!=0:
+        print(s[check_idx:])
+        answer += check_str(s[check_idx:])
+    return answer
+
+
+def check_str_test(s):
+    answer = 1
+    diff = 0
+    check_str = s[0]
+    check_idx = 0
+    for idx, i in enumerate(s):
+        if check_str == i:
+            diff += 1
+        else:
+            diff -= 1
+        if diff == 0:
+            check_idx = idx
+            break
+    check_idx += 1
+    print(check_idx, " , ", s)
+    print(s[check_idx:])
+    print("print end")
+
+    return answer
+
+
+def solution(s):
+    answer = check_str(s)
+
+    return answer
 
 
 if __name__ == "__main__" :
+    solution("banana")
+
+if __name__ == "__main3__" :
     logger_controller = log_controll.LoggerController()
     ui_thread = threading.Thread(target=run_ui, args=(logger_controller,))
     ui_thread.start()
@@ -56,7 +107,7 @@ if __name__ == '__main2__':
     test_during_time=60*60*200
     image_save_time=0
     #init_setFile()
-    total_data= {'total_count':0, 'total_val':0,'avg':0,'min':0,'max':0}#count, totalval,avg,min,max
+    total_data= {'total_count : ':0, ' , total_val : ':0,' , avg : ':0,' , min : ':0,' , max : ':0}#count, totalval,avg,min,max
     #total_data=[0,0,0,0,0]#count, totalval,avg,min,max
     recovery_count=0
     cap_count=0

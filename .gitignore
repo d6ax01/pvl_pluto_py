@@ -314,5 +314,7 @@ $RECYCLE.BIN/
 
 #big_size
 update_cal_data_to_setfile.exe
+#ignore vcs
+vcs.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/python,windows,pycharm

@@ -6,7 +6,7 @@ import datetime
 import python_simmian_api
 import sys
 import threading
-from pyqt_ui.log_ui import *
+from pyqt_ui.log_ui_aging import *
 from pyqt_ui import log_controll
 
 from shutil import copyfile
@@ -23,60 +23,8 @@ def run_ui(controller):
     app.exec_()
 
 
-def check_str(s):
-    answer = 1
-    diff = 0
-    if (len(s) == 0):
-        return 0
-    check_str = s[0]
-    check_idx = 0
-    for idx, i in enumerate(s):
-        if check_str == i:
-            diff += 1
-        else:
-            diff -= 1
-        if diff == 0:
-            check_idx = idx
-            break
-    check_idx += 1
-    if check_idx != len(s) and diff == 0:
-        # if len(s[check_idx:])!=0:
-        print(s[check_idx:])
-        answer += check_str(s[check_idx:])
-    return answer
-
-
-def check_str_test(s):
-    answer = 1
-    diff = 0
-    check_str = s[0]
-    check_idx = 0
-    for idx, i in enumerate(s):
-        if check_str == i:
-            diff += 1
-        else:
-            diff -= 1
-        if diff == 0:
-            check_idx = idx
-            break
-    check_idx += 1
-    print(check_idx, " , ", s)
-    print(s[check_idx:])
-    print("print end")
-
-    return answer
-
-
-def solution(s):
-    answer = check_str(s)
-
-    return answer
-
 
 if __name__ == "__main__" :
-    solution("banana")
-
-if __name__ == "__main3__" :
     logger_controller = log_controll.LoggerController()
     ui_thread = threading.Thread(target=run_ui, args=(logger_controller,))
     ui_thread.start()

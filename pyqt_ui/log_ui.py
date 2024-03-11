@@ -25,6 +25,13 @@ class LogState(Enum):
     GetData=1
     Recovery=2
 
+
+class TestCase(Enum):
+    NoData=0
+    Aging=1
+    TempTest=2
+    DataGet=3
+
 class LogEntry:
     def __init__(self, text, _logState=LogState.NoData, total_data=dict()):
         self.text = text
@@ -41,8 +48,9 @@ class LoggerUI(QMainWindow):
     change_large_text_signal=pyqtSignal(str,str)
     generate_log_signal=pyqtSignal(LogEntry)
 
-    def __init__(self,controller):
+    def __init__(self,controller, test_case):
         super().__init__()
+        self.test_case=test_case
         self.controller=controller
         self.initUI()
         self.mutex = QMutex()  # 뮤텍스 생성
@@ -62,6 +70,10 @@ class LoggerUI(QMainWindow):
 
         self.main_tab_UI()
         self.log_tab_UI()
+
+        if self.test_case==TestCase.TempTest:
+
+            self.rcp_UI()
 
 
 
@@ -118,6 +130,12 @@ class LoggerUI(QMainWindow):
         #self.data_line_avg = log_entry.avg
         #self.data_line_text = f"min= {self.data_line_min} , max= {self.data_line_max} , avg= {self.data_line_avg} , frame_count= {log_entry.frame_count} "
 
+
+#&수정필요
+    def start_tec_thread(self):
+        self.tec_thread = threading.Thread(target=self.start_aging_test)
+        self.work_thread.start()
+        self.start_button.setDisabled(True)
 
     def start_aging_thread(self):
         self.input_module_name_text=self.input_module_name.text()
@@ -396,4 +414,36 @@ class LoggerUI(QMainWindow):
 
         # 레이아웃 적용
         self.log_tab.setLayout(layout)
+
+
+    def rcp_UI(self):
+        self.rcp_tab = QWidget()
+        self.tabWidget.addTab(self.rcp_tab, "rcp_tab")
+        layout = QVBoxLayout()
+
+        # Add log button
+        self.read_rcp_button = QPushButton('READ RCP', self)
+        #self.log_button.clicked.connect(self.generate_log_test)
+        self.read_rcp_button.clicked.connect(self.start_tec_thread)
+
+        set_layout = QVBoxLayout()
+
+        # Create a horizontal layout for the large text box
+        top_layout = QHBoxLayout()
+        top_layout.addWidget(self.read_rcp_button)
+        top_layout.addWidget(self.large_text_box, alignment=Qt.AlignRight)
+        # large_text_layout.addStretch(1)  # Add 1/3 spacing to the left
+
+        # Add som
+
+        layout.addLayout(top_layout)
+
+        # 로그 창
+        self.rcp_list = QTextEdit(self)
+        self.rcp_list.setReadOnly(True)
+        layout.addWidget(self.rcp_list)
+        self.rcp_list.setTextInteractionFlags(Qt.NoTextInteraction)  # Prevent text selection
+
+        # 레이아웃 적용
+        self.rcp_tab.setLayout(layout)
 

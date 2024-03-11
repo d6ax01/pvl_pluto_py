@@ -14,71 +14,18 @@ from measurement import embedded_data_parser, measurement_items as mi
 import numpy as np
 import pvl_func.pvl_func as pvl_f
 
-def run_ui(controller):
+def run_ui(controller, testcase=TestCase.Aging):
     app = QApplication(sys.argv)
-    logger_ui = LoggerUI(controller)
+    logger_ui = LoggerUI(controller,testcase)
     controller.generate_log_signal.connect(logger_ui.generate_log_to)
     controller.change_large_text_signal.connect(logger_ui.change_large_text_to)
     logger_ui.show()
     app.exec_()
 
 
-def check_str(s):
-    answer = 1
-    diff = 0
-    if (len(s) == 0):
-        return 0
-    check_str = s[0]
-    check_idx = 0
-    for idx, i in enumerate(s):
-        if check_str == i:
-            diff += 1
-        else:
-            diff -= 1
-        if diff == 0:
-            check_idx = idx
-            break
-    check_idx += 1
-    if check_idx != len(s) and diff == 0:
-        # if len(s[check_idx:])!=0:
-        print(s[check_idx:])
-        answer += check_str(s[check_idx:])
-    return answer
-
-
-def check_str_test(s):
-    answer = 1
-    diff = 0
-    check_str = s[0]
-    check_idx = 0
-    for idx, i in enumerate(s):
-        if check_str == i:
-            diff += 1
-        else:
-            diff -= 1
-        if diff == 0:
-            check_idx = idx
-            break
-    check_idx += 1
-    print(check_idx, " , ", s)
-    print(s[check_idx:])
-    print("print end")
-
-    return answer
-
-
-def solution(s):
-    answer = check_str(s)
-
-    return answer
-
-
 if __name__ == "__main__" :
-    solution("banana")
-
-if __name__ == "__main3__" :
     logger_controller = log_controll.LoggerController()
-    ui_thread = threading.Thread(target=run_ui, args=(logger_controller,))
+    ui_thread = threading.Thread(target=run_ui, args=(logger_controller,TestCase.TempTest,))
     ui_thread.start()
 
 if __name__ == '__main2__':

@@ -12,7 +12,7 @@ import datetime
 import python_simmian_api
 import sys
 import threading
-from pyqt_ui.log_ui_aging import *
+from pyqt_ui.log_ui import *
 
 from shutil import copyfile
 from measurement import embedded_data_parser, measurement_items as mi

@@ -12,12 +12,14 @@ import datetime
 import python_simmian_api
 import sys
 import threading
-from pyqt_ui.log_ui_aging import *
+from pyqt_ui.log_ui import *
 
 from shutil import copyfile
 from measurement import embedded_data_parser, measurement_items as mi
 import numpy as np
 import pvl_func.pvl_func as pvl_f
+from pvl_func import TEC_Serial_Communication as serial_comm
+from pvl_func import tec_Comm_Setting as tec_setting
 
 class LogState(Enum):
     Fail=-1
@@ -47,6 +49,7 @@ class LogEntry:
 class LoggerUI(QMainWindow):
     change_large_text_signal=pyqtSignal(str,str)
     generate_log_signal=pyqtSignal(LogEntry)
+    update_rcp_signal=pyqtSignal(list)
 
     def __init__(self,controller, test_case):
         super().__init__()
@@ -56,6 +59,9 @@ class LoggerUI(QMainWindow):
         self.mutex = QMutex()  # 뮤텍스 생성
         self.generate_log_signal.connect(self.generate_log_to)  # 시그널 연결
         self.change_large_text_signal.connect(self.change_large_text_to)  # 시그널 연결
+        self.update_rcp_signal.connect(self.update_rcp_to)  # 시그널 연결
+        self.tec_count=0
+        self.my_comm=None
 
 
     def initUI(self):
@@ -132,10 +138,46 @@ class LoggerUI(QMainWindow):
 
 
 #&수정필요
-    def start_tec_thread(self):
-        self.tec_thread = threading.Thread(target=self.start_aging_test)
+
+    def start_aging_thread(self):
+        self.input_module_name_text=self.input_module_name.text()
+        self.work_thread = threading.Thread(target=self.start_aging_test)
         self.work_thread.start()
         self.start_button.setDisabled(True)
+
+
+    def start_tec_thread(self):
+        self.tec_thread = threading.Thread(target=self.start_tec_controller)
+        self.tec_thread.start()
+    def start_tec_controller(self):
+        while self.tec_count<=3:
+            if self.my_comm==None or self.my_comm.work_done==True:
+                self.tec_count += 1
+                self.del_comm_obj()
+                self.read_rcp()
+                self.my_comm.thread_on()
+                self.my_comm.start_rcp()
+            self.controller.update_rcp(self.my_comm.rcp_data)
+            time.sleep(0.5)
+    def del_comm_obj(self):
+        if self.my_comm!=None:
+            self.my_comm.end_rcp()
+            self.my_comm.is_thread_running=False
+
+    def read_rcp(self):
+        self.my_comm = serial_comm.TEC_SerialCommunication(tec_setting.TecCommSetting("config.ini"))
+        self.my_comm.read_rcp("default.rcp")
+        self.controller.update_rcp(self.my_comm.rcp_data)
+
+        # try:
+        #     self.my_comm = serial_comm.TEC_SerialCommunication(tec_setting.TecCommSetting("config.ini"))
+        #     self.my_comm.read_rcp("default.rcp")
+        #     self.rcp_list.setText("")
+        #     for i in self.my_comm.rcp_data["workString"]:
+        #         self.rcp_list.append(i)
+        # except:
+        #     print("read_RCP_ERR")
+
 
     def start_aging_thread(self):
         self.input_module_name_text=self.input_module_name.text()
@@ -161,7 +203,7 @@ class LoggerUI(QMainWindow):
         next_frame_time = 0
         test_during_time = 60 * 60 * 200
         image_save_time = 0
-        # init_setFile()
+        pvl_f.init_setFile()
         total_data = {'total_count': 0, 'avg': 0, 'min': 0, 'max': 0}  # count, totalval,avg,min,max
         # total_data=[0,0,0,0,0]#count, totalval,avg,min,max
         recovery_count = 0
@@ -297,6 +339,31 @@ class LoggerUI(QMainWindow):
         self.main_text_box.setStyleSheet(f"background-color: {color}; color: black;")
         self.main_text_box.setText(text)
         self.main_text_box.setAlignment(Qt.AlignCenter)  # Center-align text
+
+    def update_rcp_to(self, rcp_dict):
+        # Prepare a multi-line string to display multiple items
+        multi_cstr = ""
+
+        # Iterate over the workString items
+        for index, work_string in enumerate(rcp_dict['workString']):
+            cstr = work_string
+
+            if index + 1 < rcp_dict['nCrrntIdx']:
+                cstr += " : Done\r\n"
+            elif index + 1 == rcp_dict['nCrrntIdx'] and rcp_dict['rcp'][index][0] == 1:
+                if rcp_dict['TouchedTargetTemp']:
+                    cstr += ", TouchedTargetTemp : True , time : {}\r\n".format(
+                        int(time.time() - rcp_dict['CheckTime']))
+                else:
+                    cstr += ", TouchedTargetTemp : False\r\n"
+            elif index + 1 == rcp_dict['nCrrntIdx'] and rcp_dict['rcp'][index][0] == 2:
+                cstr += ", END RCP \r\n"
+            else:
+                cstr += "\r\n"
+
+            multi_cstr += cstr
+
+        self.rcp_list.setText(multi_cstr)
 
 
     def main_tab_UI(self):

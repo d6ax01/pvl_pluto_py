@@ -3,11 +3,12 @@ from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QTe
 from PyQt5.QtCore import QDateTime,pyqtSignal, QMutex, QObject,Qt
 from PyQt5.QtGui import QTextCursor,QTextBlockFormat
 from enum import Enum
-from pyqt_ui.log_ui_aging import *
+from pyqt_ui.log_ui import *
 
 class LoggerController(QObject):
     change_large_text_signal=pyqtSignal(str,str)
     generate_log_signal = pyqtSignal(LogEntry)
+    update_rcp_signal = pyqtSignal(dict)
     def __init__(self):
         super().__init__()
         self.log_entries=[]
@@ -19,3 +20,6 @@ class LoggerController(QObject):
 
     def change_large_text(self,text,color):
         self.change_large_text_signal.emit(text,color)
+
+    def update_rcp(self,str_list):
+        self.update_rcp_signal.emit(str_list)

@@ -6,7 +6,7 @@ import datetime
 import python_simmian_api
 import sys
 import threading
-from pyqt_ui.log_ui_aging import *
+from pyqt_ui.log_ui import *
 from pyqt_ui import log_controll
 
 from shutil import copyfile
@@ -19,6 +19,7 @@ def run_ui(controller, testcase=TestCase.Aging):
     logger_ui = LoggerUI(controller,testcase)
     controller.generate_log_signal.connect(logger_ui.generate_log_to)
     controller.change_large_text_signal.connect(logger_ui.change_large_text_to)
+    controller.update_rcp_signal.connect(logger_ui.update_rcp_to)
     logger_ui.show()
     app.exec_()
 

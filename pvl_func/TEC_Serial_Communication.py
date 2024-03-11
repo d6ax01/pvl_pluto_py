@@ -1,7 +1,7 @@
 import threading
 import queue
 import time
-from serial import Serial
+from serial import Serial # pip install pySerial
 
 
 class TEC_SerialCommunication:
@@ -11,6 +11,7 @@ class TEC_SerialCommunication:
         self.work_queue = queue.Queue()
         self.comm_lock = threading.Lock()
         self.condition = threading.Condition()
+        self.work_done=False
         self.is_thread_running = False
         self.schedule_thread = None
         self.work_thread = None
@@ -50,7 +51,7 @@ class TEC_SerialCommunication:
                 elif parts[0] == '2':
                     self.rcp_data['rcp'].append([2])
                     self.rcp_data['workString'].append("TEC OFF")
-        self.start_rcp()
+        #self.start_rcp()
 
     def start_rcp(self):
         if not self.rcp_data['DoSchedule']:
@@ -93,6 +94,7 @@ class TEC_SerialCommunication:
                         break
             self.check_schedule_state()
             time.sleep(0.1)
+        self.work_done=True
 
     def check_schedule_state(self):
         if not self.rcp_data['TouchedTargetTemp']:
@@ -109,9 +111,10 @@ class TEC_SerialCommunication:
             self.rcp_data['DoNextWork'] = True
 
     def thread_on(self):
-        self.is_thread_running = True
-        self.work_thread = threading.Thread(target=self.process_queue)
-        self.work_thread.start()
+        if self.is_thread_running is False:
+            self.is_thread_running = True
+            self.work_thread = threading.Thread(target=self.process_queue)
+            self.work_thread.start()
 
     def process_queue(self):
         while self.is_thread_running:

@@ -14,19 +14,18 @@ from measurement import embedded_data_parser, measurement_items as mi
 import numpy as np
 import pvl_func.pvl_func as pvl_f
 
-def run_ui(controller):
+def run_ui(controller, testcase=TestCase.Aging):
     app = QApplication(sys.argv)
-    logger_ui = LoggerUI(controller)
+    logger_ui = LoggerUI(controller,testcase)
     controller.generate_log_signal.connect(logger_ui.generate_log_to)
     controller.change_large_text_signal.connect(logger_ui.change_large_text_to)
     logger_ui.show()
     app.exec_()
 
 
-
 if __name__ == "__main__" :
     logger_controller = log_controll.LoggerController()
-    ui_thread = threading.Thread(target=run_ui, args=(logger_controller,))
+    ui_thread = threading.Thread(target=run_ui, args=(logger_controller,TestCase.TempTest,))
     ui_thread.start()
 
 if __name__ == '__main2__':

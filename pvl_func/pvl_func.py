@@ -83,11 +83,14 @@ def ProcSaveRaw(mode,MHz,Cm,result_saver):
     print(f' ')
     return CaptureResult
 
-def init_setFile():
+def init_setFile(MHz):
     # 셋파일 (100 MHz / 20 MHz ) 만들기 *******************************************************************************
     # ProcCreateSetFile100()
     time.sleep(0.010)
-    fc_vt.ProcCreateSetFile20()
+    if MHz==100:
+        fc_vt.ProcCreateSetFile100()
+    elif MHz==20:
+        fc_vt.ProcCreateSetFile20()
     time.sleep(1)
     #time.sleep(0.010)
 
@@ -95,10 +98,10 @@ def init_setFile():
     fc_vt.ProcSimmianReset()
 
     # 셋파일 로딩 **********************************************************************************************
-    # ProcLoadSetFile100mhz()
-    # time.sleep(0.1)
-
-    fc_vt.ProcLoadSetFile20mhz()
+    if MHz==100:
+        fc_vt.ProcLoadSetFile100mhz()
+    elif MHz==20:
+        fc_vt.ProcLoadSetFile20mhz()
     time.sleep(0.1)
 
     def get_temp_data(MHz,CM):

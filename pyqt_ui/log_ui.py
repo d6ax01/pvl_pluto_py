@@ -31,8 +31,8 @@ class LogState(Enum):
 class TestCase(Enum):
     NoData=0
     Aging=1
-    TempTest=2
-    DataGet=3
+    ReliabilityTest=2
+    DepthEvaluation=3
 
 class LogEntry:
     def __init__(self, text, _logState=LogState.NoData, total_data=dict()):
@@ -54,6 +54,7 @@ class LoggerUI(QMainWindow):
     def __init__(self,controller, test_case):
         super().__init__()
         self.test_case=test_case
+        self.Capture_Start=False
         self.controller=controller
         self.initUI()
         self.mutex = QMutex()  # 뮤텍스 생성
@@ -150,6 +151,17 @@ class LoggerUI(QMainWindow):
         self.tec_thread = threading.Thread(target=self.start_tec_controller)
         self.tec_thread.start()
     def start_tec_controller(self):
+        while True:
+            if self.my_comm==None or self.my_comm.work_done==True:
+                self.tec_count += 1
+                self.del_comm_obj()
+                self.read_rcp()
+                self.my_comm.thread_on()
+                self.my_comm.start_rcp()
+            self.controller.update_rcp(self.my_comm.rcp_data)
+            time.sleep(0.5)
+
+    def start_tec_controller_forloop(self):
         while self.tec_count<=3:
             if self.my_comm==None or self.my_comm.work_done==True:
                 self.tec_count += 1
@@ -185,7 +197,7 @@ class LoggerUI(QMainWindow):
         self.work_thread.start()
         self.start_button.setDisabled(True)
 
-    def start_aging_test(self):
+    def start_aging_test(self,MHz):
 
         sim_state = False
         recovery_count = 0
@@ -230,6 +242,10 @@ class LoggerUI(QMainWindow):
             data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500, result_saver)  # 500 mm 에서 평가
 
             if data_get_bool:
+                if self.Capture_Start is False:
+                    if self.test_case==TestCase.ReliabilityTest:
+                        self.start_tec_thread()
+                    self.Capture_Start = True
                 # get easurement item from capture data
                 frame_item = [0, 0, 0, 0, 0]# 0 : depth avg , 1 : intensity avg , 2 : tx temp , 3 : rx temp , 4 : time stamp
                 frame_num = len(result_saver)
@@ -257,8 +273,6 @@ class LoggerUI(QMainWindow):
                     pvl_f.image_save(20, 500)
                 recovery_count = 0
 
-
-
             else:
                 sim_state = False
                 while sim_state is False and recovery_count < 20:
@@ -278,23 +292,6 @@ class LoggerUI(QMainWindow):
 
             fc_vt.ProcCreateReport(1)  # 0 -> find global offset , 1 -> only measurement
 
-        # RAW 저장 (위치 : 500 mm ) *********************************************************************************
-        # while time.time()<start_time+test_during_time:
-        #     try:
-        #         time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
-        #         # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
-        #         data_get_bool=ProcSaveRaw(1, 20, 500)  # 500 mm 에서 평가
-        #         if data_get_bool:
-        #             fc_vt.ProcCreateReport(1)  # 0 -> find global offset , 1 -> only measurement
-        #             init_count = 0
-        #         else:
-        #
-        #             raise Exception
-        #     except:
-        #         init_count+=1
-        #         init()
-        #         if init_count==10:
-        #             break
 
         # 심미안 리셋 ******************************************************************************************************
         fc_vt.msg_print(f'심미안을 리셋합니다.')
@@ -307,8 +304,13 @@ class LoggerUI(QMainWindow):
         # 모터 닫기 ********************************************************************************************************
         fc_vt.msg_print(f'모터와 통신을 종료합니다.')
         fc_vt.ProcMotorClose()
+
+        self.controller.generate_log(f"Done")
+        self.controller.change_large_text(f"Done", "lightgreen")
+
         fc_vt.msg_print("done. please replace with next module")
         fc_vt.sys.exit()
+
 
     def generate_log_test(self):
 

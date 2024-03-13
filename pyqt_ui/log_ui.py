@@ -171,6 +171,7 @@ class LoggerUI(QMainWindow):
                 self.my_comm.start_rcp()
             self.controller.update_rcp(self.my_comm.rcp_data)
             time.sleep(0.5)
+
     def del_comm_obj(self):
         if self.my_comm!=None:
             self.my_comm.end_rcp()

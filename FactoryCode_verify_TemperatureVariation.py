@@ -53,7 +53,7 @@ gRootPath = os.path.dirname(os.path.abspath(__file__))
 gOutputFilePrefix = f'Image'
 gRootSavePath = f'%s\%s' % (f'C:\LSI_VST63D', f'save')
 gOutputDirPrefix = f'image'
-gCaptureCnt = 10
+gCaptureCnt = 1
 gMotorSettleTimeSec = 3
 #####################################################
 
@@ -61,8 +61,8 @@ gMotorSettleTimeSec = 3
 #####################################################
 gRootSetFilePath = f'%s\%s' % (f'C:\LSI_VST63D', f'save')
 gSaveModulePath = f' '
-g100MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_100M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_3J.set'   # BtoC DV1 -> f'100M_0310.set'
-g20MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_20M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_3J.set'     # BtoC DV1 -> f'20M_0310.set'
+g100MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_100M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_2J.set'   # BtoC DV1 -> f'100M_0310.set'
+g20MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_20M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_2J.set'     # BtoC DV1 -> f'20M_0310.set'
 g100MHzSetFilePath = f' '
 g20MHzSetFilePath = f' '
 g20mhz30cm = f' '

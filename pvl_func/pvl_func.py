@@ -55,7 +55,7 @@ def ProcSaveRaw(mode,MHz,Cm,result_saver):
 
     fc_vt.msg_print(f'Capture Start : {MHz} MHz at {10*Cm} mm')
 
-    #time.sleep(1)
+    time.sleep(0.5)
 
 
     gOutputFilePrefix = (f'image{MHz}mhz')

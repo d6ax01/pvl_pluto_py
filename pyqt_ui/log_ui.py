@@ -203,7 +203,7 @@ class LoggerUI(QMainWindow):
         self.start_button.setDisabled(True)
 
     def start_aging_test(self):
-        #MHz=100
+        MHz=20
         sim_state = False
         recovery_count = 0
         while sim_state is False:
@@ -221,7 +221,7 @@ class LoggerUI(QMainWindow):
         next_frame_time = 0
         test_during_time = 60 * 60 * 200
         image_save_time = 0
-        pvl_f.init_setFile(100)
+        pvl_f.init_setFile(MHz)
         total_data = {'total_count': 0, 'avg': 0, 'min': 0, 'max': 0}  # count, totalval,avg,min,max
         # total_data=[0,0,0,0,0]#count, totalval,avg,min,max
         recovery_count = 0
@@ -245,7 +245,9 @@ class LoggerUI(QMainWindow):
             total_second = (datetime.datetime.now() - start_time).total_seconds()
             #time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
             # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
-            data_get_bool = pvl_f.ProcSaveRaw(1, 100, 500, result_saver)  # 500 mm 에서 평가
+            print("yet data bool... ")
+            data_get_bool = pvl_f.ProcSaveRaw(1, MHz, 500, result_saver)  # 500 mm 에서 평가
+            print("get data bool : ", data_get_bool)
 
             if data_get_bool:
                 if self.Capture_Start is False:
@@ -278,7 +280,7 @@ class LoggerUI(QMainWindow):
                 # img save per hour
                 if total_second / 3600 > image_save_time:
                     image_save_time += 1
-                    pvl_f.image_save(100, 500)
+                    pvl_f.image_save(MHz, 500)
                 recovery_count = 0
 
             else:
@@ -296,7 +298,7 @@ class LoggerUI(QMainWindow):
                     # 로그에 init count max를 입력하고 프로그램 종료
                     break
                 else:
-                    pvl_f.init_setFile(100)
+                    pvl_f.init_setFile(MHz)
 
             fc_vt.ProcCreateReport(1)  # 0 -> find global offset , 1 -> only measurement
 

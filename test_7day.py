@@ -78,7 +78,6 @@ if __name__ == '__main2__':
         time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
         # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
         data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500,result_saver)  #  500 mm 에서 평가
-
         if data_get_bool:
             # add log
             cap_count+=1

@@ -5,7 +5,12 @@ import os.path
 
 
 class MeasurementItems:
-    def __init__(self,file_path):
+    def __init__(self,file_path,tec_data=False):
+        self.tec_data=tec_data
+        if self.tec_data:
+            self.columns=['Depth', 'Intensity', 'Tx_temp', 'Rx_temp', 'time_stamp','tec_temp']
+        else:
+            self.columns=['Depth', 'Intensity', 'Tx_temp', 'Rx_temp', 'time_stamp']
         self.result_table=list()
         #self.min_max_data=list() # min max in result_table
         self.csv_path=file_path
@@ -15,7 +20,7 @@ class MeasurementItems:
         for i in range(4):
             self.result_table.append([0,0,0,0,0,0]) #avg, std, max val, max time, min val, min time
 
-    def input_measurement_item(self,item):
+    def input_measurement_item(self,item,tec_temp=-1):
         # write csv
         #add count
         self.item_count+=1
@@ -29,7 +34,7 @@ class MeasurementItems:
             self.result_table[i][1]=self.total_value_pow[i]/self.item_count - self.result_table[i][0]**2
         # check min,max
         self.__check_min_max__(item)
-        self.__wr_items__(item)
+        self.__wr_items__(item, tec_temp)
         self.__wr_result_table__(item)
 
     def __check_min_max__(self,item):
@@ -64,12 +69,13 @@ class MeasurementItems:
         # 하단코드는 처음이면 새로 생성 , 기존에 있으면 해당 파일에 누적해서 기록함
         df1.to_csv(file_path, index=True, mode='w', header=True)
 
-    def __wr_items__(self,item):
-
+    def __wr_items__(self,item,tec_temp=-1):
         # report 엑셀 출력
+        if self.tec_data:
+            item.append(tec_temp)
         df1 = pd.DataFrame(
                     [item],
-                    columns=['Depth', 'Intensity', 'Tx_temp', 'Rx_temp', 'time_stamp']
+                    columns=self.columns
         )
 
         # file_path = r'{0}\{1}.csv'.format(Path, gSensor_id)  # file_path = r'{0}\{1}.csv'.format(Path, f'result')

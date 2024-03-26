@@ -78,7 +78,7 @@ class LoggerUI(QMainWindow):
         self.main_tab_UI()
         self.log_tab_UI()
 
-        if self.test_case==TestCase.TempTest:
+        if self.test_case==TestCase.ReliabilityTest:
 
             self.rcp_UI()
 
@@ -146,20 +146,24 @@ class LoggerUI(QMainWindow):
         self.work_thread.start()
         self.start_button.setDisabled(True)
 
-
-    def start_tec_thread(self):
-        self.tec_thread = threading.Thread(target=self.start_tec_controller)
+    def start_tec_thread(self,start_rcp=False):
+        self.tec_thread = threading.Thread(target=self.start_tec_controller,args=(start_rcp,))
         self.tec_thread.start()
-    def start_tec_controller(self):
+
+    def start_tec_controller(self, start_rcp=False):
         while True:
-            if self.my_comm==None or self.my_comm.work_done==True:
+            if self.my_comm==None:# or self.my_comm.work_done==True:
                 self.tec_count += 1
                 self.del_comm_obj()
                 self.read_rcp()
-                self.my_comm.thread_on()
-                self.my_comm.start_rcp()
+                if start_rcp:
+                    self.rcp_start()
             self.controller.update_rcp(self.my_comm.rcp_data)
             time.sleep(0.5)
+    def rcp_start(self):
+        if self.my_comm is not None:
+            self.my_comm.thread_on()
+            self.my_comm.start_rcp()
 
     def start_tec_controller_forloop(self):
         while self.tec_count<=3:
@@ -198,8 +202,8 @@ class LoggerUI(QMainWindow):
         self.work_thread.start()
         self.start_button.setDisabled(True)
 
-    def start_aging_test(self,MHz):
-
+    def start_aging_test(self):
+        MHz=20
         sim_state = False
         recovery_count = 0
         while sim_state is False:
@@ -209,14 +213,15 @@ class LoggerUI(QMainWindow):
             self.controller.change_large_text(f"SETTING : {recovery_count}", "lightcoral")
 
             sim_state = pvl_f.RecoverySim()
-
+        if self.test_case == TestCase.ReliabilityTest:
+            self.start_tec_thread()
         # 모듈 번호 입력 ***************************************************************************************************
         fc_vt.ProcCreateModuleFolder(self.input_module_name_text)
         start_time = datetime.datetime.now()
         next_frame_time = 0
         test_during_time = 60 * 60 * 200
         image_save_time = 0
-        pvl_f.init_setFile()
+        pvl_f.init_setFile(MHz)
         total_data = {'total_count': 0, 'avg': 0, 'min': 0, 'max': 0}  # count, totalval,avg,min,max
         # total_data=[0,0,0,0,0]#count, totalval,avg,min,max
         recovery_count = 0
@@ -225,7 +230,7 @@ class LoggerUI(QMainWindow):
         frame_item = list()
 
         mi_path = fc_vt.get_path()
-        mi_obj = mi.MeasurementItems(mi_path)
+        mi_obj = mi.MeasurementItems(mi_path,True)
         next_frame_time = start_time
 
         self.controller.change_large_text("RUNNING", "lightgreen")
@@ -234,18 +239,20 @@ class LoggerUI(QMainWindow):
             if (next_frame_time - datetime.datetime.now()).total_seconds() > 0:
                 time.sleep(0.05)
                 continue
-            next_frame_time = next_frame_time + datetime.timedelta(seconds=10)
+            next_frame_time = next_frame_time + datetime.timedelta(seconds=1)
             result_saver = list()
 
             total_second = (datetime.datetime.now() - start_time).total_seconds()
-            time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
+            #time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
             # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
-            data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500, result_saver)  # 500 mm 에서 평가
+            print("yet data bool... ")
+            data_get_bool = pvl_f.ProcSaveRaw(1, MHz, 500, result_saver)  # 500 mm 에서 평가
+            print("get data bool : ", data_get_bool)
 
             if data_get_bool:
                 if self.Capture_Start is False:
                     if self.test_case==TestCase.ReliabilityTest:
-                        self.start_tec_thread()
+                        self.rcp_start()
                     self.Capture_Start = True
                 # get easurement item from capture data
                 frame_item = [0, 0, 0, 0, 0]# 0 : depth avg , 1 : intensity avg , 2 : tx temp , 3 : rx temp , 4 : time stamp
@@ -256,8 +263,10 @@ class LoggerUI(QMainWindow):
                 for j in range(4):
                     frame_item[j] /= frame_num
                 frame_item[4] = result_saver[0][4]  # input first frame time stamp
-
-                mi_obj.input_measurement_item(frame_item)
+                if self.test_case==TestCase.ReliabilityTest:
+                    mi_obj.input_measurement_item(frame_item,self.my_comm.current_temp)
+                else:
+                    mi_obj.input_measurement_item(frame_item)
 
                 #mi_obj.result_table[0]-> depth data, 0:avg, 2:max, 4:min
                 # add log
@@ -271,7 +280,7 @@ class LoggerUI(QMainWindow):
                 # img save per hour
                 if total_second / 3600 > image_save_time:
                     image_save_time += 1
-                    pvl_f.image_save(20, 500)
+                    pvl_f.image_save(MHz, 500)
                 recovery_count = 0
 
             else:
@@ -289,7 +298,7 @@ class LoggerUI(QMainWindow):
                     # 로그에 init count max를 입력하고 프로그램 종료
                     break
                 else:
-                    pvl_f.init_setFile()
+                    pvl_f.init_setFile(MHz)
 
             fc_vt.ProcCreateReport(1)  # 0 -> find global offset , 1 -> only measurement
 
@@ -445,7 +454,7 @@ class LoggerUI(QMainWindow):
         data_layout.addWidget(self.data_line, alignment=Qt.AlignLeft)
 
         set_layout = QVBoxLayout()
-        set_layout.addLayout(input_layout)
+        set_layout.addLayout(input_layout )
         set_layout.addLayout(data_layout)
 
         # Create a horizontal layout for the large text box
@@ -494,7 +503,7 @@ class LoggerUI(QMainWindow):
         # Add log button
         self.read_rcp_button = QPushButton('READ RCP', self)
         #self.log_button.clicked.connect(self.generate_log_test)
-        self.read_rcp_button.clicked.connect(self.start_tec_thread)
+        self.read_rcp_button.clicked.connect(lambda : self.start_tec_thread(True))
 
         set_layout = QVBoxLayout()
 

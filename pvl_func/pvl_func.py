@@ -55,7 +55,7 @@ def ProcSaveRaw(mode,MHz,Cm,result_saver):
 
     fc_vt.msg_print(f'Capture Start : {MHz} MHz at {10*Cm} mm')
 
-    time.sleep(1)
+    time.sleep(0.5)
 
 
     gOutputFilePrefix = (f'image{MHz}mhz')
@@ -109,7 +109,7 @@ def init_setFile(MHz):
         savePath = f'%s\%s\%s' % (fc_vt.gRootSavePath, fc_vt.gget_module_number, folder_name)
         # g100mhz50cm = f'%s\%s\%s' % (fc_vt.gRootSavePath, fc_vt.get_module_number, f'100M_50cm')
         save_str = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S-')
-        for i in range(3):
+        for i in range(fc_vt.gCaptureCnt):
             copyfile(f'{savePath}\image{MHz}mhz_{i}_ALL0_f1_nshfl.raw',
                      f'{savePath}\{save_str}image{MHz}mhz_{i}_ALL0_f1_nshfl.raw')
 
@@ -119,5 +119,5 @@ def image_save(MHz,Cm):
     savePath = f'%s\%s\%s' % (fc_vt.gRootSavePath, fc_vt.gget_module_number, folder_name)
     # g100mhz50cm = f'%s\%s\%s' % (fc_vt.gRootSavePath, fc_vt.get_module_number, f'100M_50cm')
     save_str=datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S-')
-    for i in range(3):
+    for i in range(fc_vt.gCaptureCnt):
         copyfile(f'{savePath}\image{MHz}mhz_{i}_ALL0_f1_nshfl.raw',f'{savePath}\{save_str}image{MHz}mhz_{i}_ALL0_f1_nshfl.raw')

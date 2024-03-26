@@ -81,8 +81,8 @@ VALIDATION_SIMPLE = 3
 gRootSetFilePath = f'%s\%s' % (f'C:\LSI_VST63D', f'save')
 gSaveModulePath = f' '
 mode_type = 1
-g100MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_100M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_3J.set'
-g20MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_20M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_3J.set'
+g100MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_100M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_2J.set'
+g20MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_20M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_2J.set'
 g100MHzSetFilePath = f' '
 g20MHzSetFilePath = f' '
 g20mhz30cm = f' '
@@ -1828,13 +1828,15 @@ def main_val(mode):
         return FAIL_IS_ADMIN #sys.exit(-1)
 
     # Todo 모터 초기화
-    msg_print(f'Start motor initialization.')
-    want_home_position_at_start = True
-    motion_obj = motion.Motion()
-    gMotor = motor_open(want_home_position_at_start)
-    if (want_home_position_at_start):
-        motor_move(distance=500, motion_abs=motion_dist500)
-        time.sleep(0.5)
+    is_status = False
+    if is_status is True:
+        msg_print(f'Start motor initialization.')
+        want_home_position_at_start = True
+        motion_obj = motion.Motion()
+        gMotor = motor_open(want_home_position_at_start)
+        if (want_home_position_at_start):
+            motor_move(distance=500, motion_abs=motion_dist500)
+            time.sleep(0.5)
 
     # Todo 심미안 장치 찾기 및 플레이
     #msg_print(f'심미안 뷰어의 재생을 시작합니다.')
@@ -1864,12 +1866,12 @@ def main_val(mode):
             return is_default_offset
 
     ## Todo 셋파일 100 MHz 만들기
-    #is_status = True
-    #if is_status:
-    #    is_create_setfile = ProcCreateSetFile100()
-    #    if is_create_setfile != PASS:
-    #        ProcCreateReport(ERROR, FAIL_MAKE_SETFILE)
-    #        return FAIL_MAKE_SETFILE
+    is_status = True
+    if is_status:
+       is_create_setfile = ProcCreateSetFile100()
+       if is_create_setfile != PASS:
+           ProcCreateReport(ERROR, FAIL_MAKE_SETFILE)
+           return FAIL_MAKE_SETFILE
 
     # Todo 셋파일 20 MHz 만들기
     is_status = True
@@ -1887,14 +1889,12 @@ def main_val(mode):
         return FAIL_SIMMIAN_INIT
 
     ## Todo 100 MHz 셋파일 로딩
-    #is_status = True
-    #if is_status:
-    #    is_load_setfile = ProcLoadSetFile100mhz()
-    #    if is_load_setfile != PASS:
-    #        ProcCreateReport(ERROR, FAIL_LOAD_SETFILE)
-    #        return FAIL_LOAD_SETFILE
-#
-
+    is_status = True
+    if is_status:
+       is_load_setfile = ProcLoadSetFile100mhz()
+       if is_load_setfile != PASS:
+           ProcCreateReport(ERROR, FAIL_LOAD_SETFILE)
+           return FAIL_LOAD_SETFILE
 
     # Todo 100MHz 평가 (위치 : 500 mm )
     time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
@@ -1925,13 +1925,13 @@ def main_val(mode):
         return FAIL_SIMMIAN_INIT
 
     # # Todo 모터 제어 : 위치 이동 300 mm
-    is_status = True
+    is_status = False
     if is_status:
         motor_move(distance=300, motion_abs=motion_dist300)
         time.sleep(1)
     #
     # # Todo 100 MHz 셋파일 로딩
-    is_status = True
+    is_status = False
     if is_status:
         is_load_setfile = ProcLoadSetFile100mhz()
         if is_load_setfile != PASS:
@@ -1939,7 +1939,7 @@ def main_val(mode):
             return FAIL_LOAD_SETFILE
     #
     # # todo 100MHz at 300mm 뎁스 측정
-    is_status = True
+    is_status = False
     if is_status:
         time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
         is_measure = ProcSaveRaw100mhz30cm(EVALUATION)          # todo (0)GLOBAL_OFFSET , (1)EVALUATION
@@ -1953,7 +1953,7 @@ def main_val(mode):
         return FAIL_SIMMIAN_INIT
 
     # Todo 모터 제어 : 위치 이동 500 mm
-    is_status = True
+    is_status = False
     if is_status:
         motor_move(distance=500, motion_abs=motion_dist500)
         time.sleep(1)
@@ -1994,13 +1994,13 @@ def main_val(mode):
         return FAIL_SIMMIAN_INIT
 
     # # Todo 모터 제어 : 위치 이동 300 mm
-    is_status = True
+    is_status = False
     if is_status:
         motor_move(distance=300, motion_abs=motion_dist300)
         time.sleep(1)
 
     # # Todo 20 MHz 셋파일 로딩
-    is_status = True
+    is_status = False
     if is_status:
         is_load_setfile = ProcLoadSetFile20mhz()
         if is_load_setfile != PASS:
@@ -2008,7 +2008,7 @@ def main_val(mode):
             return FAIL_LOAD_SETFILE
 
     # # todo 20MHz at 300mm 뎁스 측정
-    is_status = True
+    is_status = False
     if is_status:
         time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
         is_measure = ProcSaveRaw20mhz30cm(EVALUATION)           # todo (0)GLOBAL_OFFSET , (1)EVALUATION
@@ -2016,8 +2016,10 @@ def main_val(mode):
             return FAIL_Z_ERROR
 
     # Todo 모터 닫기
-    motor_move(distance=500, motion_abs=motion_dist500)
-    ProcMotorClose()
+    is_status = False
+    if is_status:
+        motor_move(distance=500, motion_abs=motion_dist500)
+        ProcMotorClose()
 
     # 2023-01-27 Todo APC Check 투식스 레이저 DV1-5 'T1-> T2' , DV2 'T2-> T3'
     is_status = False

@@ -71,8 +71,8 @@ glogpath = f'%s\%s' % (gRootSavePath, f'validation.log')
 #####################################################
 gRootSetFilePath = f'%s\%s' % (f'C:\LSI_VST63D', f'4_Validation\save')
 gSaveModulePath = f' '
-g100MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_100M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_3J.set'   # BtoC -> f'100M_1109.set'
-g20MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_20M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_3J.set'     # BtoC -> f'20M_1109.set'
+g100MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_100M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_2J.set'   # BtoC -> f'100M_1109.set'
+g20MHzSetFileName = f'[val]63D_EVT0p1_QVGA_A_C02_M1_R300_D60_SINGLE_20M_FLOOD_DPHY960_AE_MIPI960_cal_maskoff_CalOff_2J.set'     # BtoC -> f'20M_1109.set'
 g100MHzSetFilePath = f' '
 g20MHzSetFilePath = f' '
 g20mhz30cm = f' '

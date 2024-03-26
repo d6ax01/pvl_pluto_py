@@ -26,7 +26,7 @@ def run_ui(controller, testcase=TestCase.Aging):
 
 if __name__ == "__main__" :
     logger_controller = log_controll.LoggerController()
-    ui_thread = threading.Thread(target=run_ui, args=(logger_controller,TestCase.TempTest,))
+    ui_thread = threading.Thread(target=run_ui, args=(logger_controller,TestCase.ReliabilityTest,))
     ui_thread.start()
 
 if __name__ == '__main2__':
@@ -70,7 +70,7 @@ if __name__ == '__main2__':
         if (next_frame_time - datetime.datetime.now()).total_seconds()> 0:
             time.sleep(0.05)
             continue
-        next_frame_time= next_frame_time+datetime.timedelta(seconds=10)
+        next_frame_time= next_frame_time+datetime.timedelta(seconds=1)
         result_saver = list()
 
         total_second = (datetime.datetime.now() - start_time).total_seconds()
@@ -78,7 +78,6 @@ if __name__ == '__main2__':
         time.sleep(1)  # 성능평가를 위한 뎁스 영상 취득 전에 워밍업 3초
         # Measurement(100, 500, motion_dist500)  # 300 mm 에서 평가
         data_get_bool = pvl_f.ProcSaveRaw(1, 20, 500,result_saver)  #  500 mm 에서 평가
-
         if data_get_bool:
             # add log
             cap_count+=1

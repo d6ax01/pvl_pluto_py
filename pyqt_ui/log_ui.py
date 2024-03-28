@@ -18,7 +18,7 @@ from shutil import copyfile
 from measurement import embedded_data_parser, measurement_items as mi
 import numpy as np
 import pvl_func.pvl_func as pvl_f
-from pvl_func import TEC_Serial_Communication as serial_comm
+import pvl_func.tec_scheduler as tec_object
 from pvl_func import tec_Comm_Setting as tec_setting
 
 class LogState(Enum):
@@ -182,7 +182,7 @@ class LoggerUI(QMainWindow):
             self.my_comm.is_thread_running=False
 
     def read_rcp(self):
-        self.my_comm = serial_comm.TEC_SerialCommunication(tec_setting.TecCommSetting("config.ini"))
+        self.my_comm = tec_object.TecScheduler(tec_setting.TecCommSetting("config.ini"))
         self.my_comm.read_rcp("default.rcp")
         self.controller.update_rcp(self.my_comm.rcp_data)
 
